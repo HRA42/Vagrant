@@ -1,0 +1,52 @@
+---
+- hosts:
+    - all
+
+  tasks:
+# Install Windows Updates
+  - name: Install Windows Updates
+    win_updates:
+      category_names: '*'
+      reboot: yes
+      reboot_timeout: 3600
+
+  # Install Chocolatey
+  - name: Install Chocolatey
+    win_shell: |
+      Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+
+  # Install Chocolatey-Core-Extension
+  - name: Install Chocolatey-Core-Extension
+    win_chocolatey:
+      name: chocolatey-core.extension
+      state: present
+
+  # Install Powershell 7
+  - name: Install Powershell 7
+    win_chocolatey:
+      name: powershell-core
+      state: present
+
+  # Install Docker Desktop
+  - name: Install Docker Desktop
+    win_chocolatey:
+      name: docker-desktop
+      state: present
+
+  # Install Python 3
+  - name: Install Python 3
+    win_chocolatey:
+      name: python3
+      state: present
+
+  # Install Git
+  - name: Install Git
+    win_chocolatey:
+      name: git.install
+      state: present
+
+  # Install Visual Studio Code (VSCode)
+  - name: Install Visual Studio Code (VSCode)
+    win_chocolatey:
+      name: vscode
+      state: present

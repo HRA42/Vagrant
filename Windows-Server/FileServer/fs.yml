@@ -1,0 +1,34 @@
+---
+- hosts:
+    - all
+
+  tasks:
+  # Install Windows Updates
+  - name: Install Windows Updates
+    win_updates:
+      category_names: '*'
+      reboot: yes
+      reboot_timeout: 3600
+
+  # Install File Server Role
+  - name: Install File Server Role
+    win_feature:
+      name: FS-FileServer
+      state: present
+
+  # Install Chocolatey
+  - name: Install Chocolatey
+    win_shell: |
+      Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+
+  # Install Chocolatey-Core-Extension
+  - name: Install Chocolatey-Core-Extension
+    win_chocolatey:
+      name: chocolatey-core.extension
+      state: present
+
+  # Install Powershell 7
+  - name: Install Powershell 7
+    win_chocolatey:
+      name: powershell-core
+      state: present

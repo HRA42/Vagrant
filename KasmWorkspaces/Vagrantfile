@@ -1,0 +1,19 @@
+Vagrant.configure("2") do |config|
+    config.vm.define "kasmworkspaces" do |kasmworkspaces|
+        kasmworkspaces.vm.box = "debian/bullseye64"
+        kasmworkspaces.vm.hostname = "kasmworkspaces"
+        kasmworkspaces.vm.disk :disk, size: "60GB", primary: true
+        kasmworkspaces.vm.network :private_network ,
+        :type => "dhcp",
+        :libvirt__network_name => "internal-lin"
+        kasmworkspaces.vm.provider :libvirt do |libvirt|
+            libvirt.cpus = 8
+            libvirt.memory = 16384
+            libvirt.driver = "kvm"
+        end
+    end
+    config.vm.provision "ansible" do |ansible|
+        ansible.verbose = "v"
+        ansible.playbook = "kasmworkspaces.yml"
+    end
+end
