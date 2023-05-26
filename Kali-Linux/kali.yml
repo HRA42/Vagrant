@@ -36,3 +36,6 @@
       ansible.builtin.apt:
         name: kali-desktop-kde
         state: present
+
+    - name: Reboot System
+      ansible.builtin.reboot:
