@@ -16,7 +16,7 @@
       Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 
   # Install Chocolatey-Core-Extension
-  - name: Install Chocolatey-Core-Extension
+  - name: Install Chocolatey-Core-Extensionb 
     win_chocolatey:
       name: chocolatey-core.extension
       state: present
@@ -25,18 +25,6 @@
   - name: Install Powershell 7
     win_chocolatey:
       name: powershell-core
-      state: present
-
-  # Install Docker Desktop
-  - name: Install Docker Desktop
-    win_chocolatey:
-      name: docker-desktop
-      state: present
-
-  # Install Python 3
-  - name: Install Python 3
-    win_chocolatey:
-      name: python3
       state: present
 
   # Install Git
