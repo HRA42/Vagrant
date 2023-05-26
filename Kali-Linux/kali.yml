@@ -1,0 +1,38 @@
+---
+- name: Configure Kali-Linux
+  hosts:
+    - all
+  become: true
+
+  tasks:
+    - name: Apt-Cache aktualisieren
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 3600
+
+    - name: Alle Pakete aktualisieren
+      ansible.builtin.apt:
+        upgrade: dist
+
+    - name: Reboot?
+      ansible.builtin.stat:
+        path: /var/run/reboot-required
+      register: reboot_required
+
+    - name: Reboot
+      ansible.builtin.reboot:
+      when: reboot_required.stat.exists
+
+    - name: Remove Desktop
+      ansible.builtin.apt:
+        name: kali-desktop-xfce
+        state: absent
+
+    - name: Remove unused packages
+      ansible.builtin.apt:
+        autoremove: true
+
+    - name: Install KDE Desktop
+      ansible.builtin.apt:
+        name: kali-desktop-kde
+        state: present
